@@ -1,0 +1,25 @@
+# portCreateRepo.yaml
+
+name: Port action - create repository
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+      port_payload:
+        required: true
+        description: Port's payload, including details for who triggered the action and general context
+        type: string
+jobs:
+  create-repository:
+    runs-on: ubuntu-latest
+    name: Create repository
+    steps:
+      - name: create repo
+        uses: octobay/create-repository-action@v1
+        with:
+          name: ${{ inputs.name }}
+          org: "mlp-droid" # change this to the org name in which you want to create the new repo
+          access-token: ${{ secrets.ORG_ADMIN_TOKEN }} # the secret we created in the previous step
+          private-repo: true
+          initialize-repo: true
